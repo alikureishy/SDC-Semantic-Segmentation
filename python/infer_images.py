@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 
 import scipy.misc
-from scipy import ndimage
 import tensorflow as tf
 import time
 import os.path
 from glob import glob
-import numpy as np
 from tests import project_tests as tests
-from model import layers, load_vgg, optimize, train_nn
-from hyperparams import *
+from arch.model import layers, load_vgg, optimize, train_nn
+from arch.hyperparams import *
 import shutil
 from utils.input import maybe_download_pretrained_vgg
 

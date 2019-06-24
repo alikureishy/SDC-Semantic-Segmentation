@@ -4,11 +4,69 @@ from utils.gpu import *
 import time
 import os.path
 import glob
-from hyperparams import *
+from arch.hyperparams import *
 from datetime import timedelta
+import shutil
+import zipfile
+from urllib.request import urlretrieve
+from tqdm import tqdm
 
 check_tensorflow_version()
 check_gpu()
+
+class DLProgress(tqdm):
+    """
+    Report download progress to the terminal.
+    :param tqdm: Information fed to the tqdm library to estimate progress.
+    """
+    last_block = 0
+
+    def hook(self, block_num=1, block_size=1, total_size=None):
+        """
+        Store necessary information for tracking progress.
+        :param block_num: current block of the download
+        :param block_size: size of current block
+        :param total_size: total download size, if known
+        """
+        self.total = total_size
+        self.update((block_num - self.last_block) * block_size)  # Updates progress
+        self.last_block = block_num
+
+def maybe_download_pretrained_vgg(data_dir):
+    """
+    Download and extract pretrained vgg model if it doesn't exist
+    :param data_dir: Directory to download the model to
+    """
+    vgg_filename = 'vgg.zip'
+    vgg_path = os.path.join(data_dir, 'vgg')
+    vgg_files = [
+        os.path.join(vgg_path, 'variables/variables.data-00000-of-00001'),
+        os.path.join(vgg_path, 'variables/variables.index'),
+        os.path.join(vgg_path, 'saved_model.pb')]
+
+    missing_vgg_files = [vgg_file for vgg_file in vgg_files if not os.path.exists(vgg_file)]
+    if missing_vgg_files:
+        # Clean vgg dir
+        if os.path.exists(vgg_path):
+            shutil.rmtree(vgg_path)
+        os.makedirs(vgg_path)
+
+        # Download vgg
+        print('Downloading pre-trained vgg model...')
+        with DLProgress(unit='B', unit_scale=True, miniters=1) as pbar:
+            urlretrieve(
+                'https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/vgg.zip',
+                os.path.join(vgg_path, vgg_filename),
+                pbar.hook)
+
+        # Extract vgg
+        print('Extracting model...')
+        zip_ref = zipfile.ZipFile(os.path.join(vgg_path, vgg_filename), 'r')
+        zip_ref.extractall(data_dir)
+        zip_ref.close()
+
+        # Remove zip file to save space
+        os.remove(os.path.join(vgg_path, vgg_filename))
 
 def load_vgg(sess, vgg_path):
     """
@@ -136,6 +194,24 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                     kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
 
     return nn_last_layer
+
+def build_model(model_file, reload_model, sess):
+    maybe_download_pretrained_vgg(DATA_DIR)
+    vgg_path = os.path.join(DATA_DIR, 'vgg')
+    input_layer, keep_prob, layer3, layer4, layer7 = load_vgg(sess, vgg_path)
+    output_layer = layers(layer3, layer4, layer7, NUM_CLASSES)
+    correct_label = tf.placeholder(dtype=tf.float32, shape=(None, None, None, NUM_CLASSES), name='correct_label')
+    learning_rate = tf.placeholder(dtype=tf.float32, name='learning_rate')
+    logits, train_op, cross_entropy_loss = optimize(output_layer, correct_label, learning_rate, NUM_CLASSES)
+    # Load the model variables into the model:
+    if reload_model and model_exists(model_file):
+        saver = load_model(model_file, sess)
+        print("Continuing training from model file...")
+    else:
+        print("Training from scratch...")
+        sess.run(tf.global_variables_initializer())
+    return correct_label, cross_entropy_loss, input_layer, keep_prob, learning_rate, train_op
+
 
 def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     """
