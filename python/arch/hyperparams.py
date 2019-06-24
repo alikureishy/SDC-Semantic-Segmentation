@@ -20,15 +20,3 @@ NUM_CLASSES = 2
 DATA_DIR = '../data'
 RUNS_DIR = '../runs'
 MODELS_DIR = "../models"
-
-###################################
-#           AUGMENTATION          #
-###################################
-DEBUG_AUGMENTATION_LEVEL = 0
-BACKGROUND_COLOR = np.array([255, 0, 0])
-CROP_PROBABILITY = 0.5
-FLIP_PROBABILITY = 0.5
-RESIZE_PROBABILITY = 0.5
-EDIT_PROBABILITY = 0.5
-EDIT_CONTRAST_RANGE = [0.85, 1.15]
-EDIT_BRIGHTNESS_RANGE = [-45, 30]

@@ -13,7 +13,7 @@ import os.path
 import scipy.misc
 from glob import glob
 from utils.media import *
-from arch.hyperparams import *
+from utils.params import *
 
 def prob_choice(threshold):
 	return random.uniform(0, 1) > threshold

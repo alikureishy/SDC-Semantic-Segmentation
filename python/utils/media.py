@@ -1,18 +1,9 @@
 #!/usr/bin/env python3
 
-# import re
 import random
 import numpy as np
-# import os.path
 import scipy.misc
 from scipy import ndimage
-# import shutil
-# import zipfile
-# import time
-# import tensorflow as tf
-# from glob import glob
-# from urllib.request import urlretrieve
-# from tqdm import tqdm
 
 def img_size(image):
     return image.shape[0], image.shape[1]
