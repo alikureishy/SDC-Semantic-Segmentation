@@ -1,7 +1,7 @@
 '''
 You should not edit project_tests.py as part of your submission.
 
-This file is used for unit testing your work within main.py.
+This file is used for unit testing your work within trainer.py.
 '''
 
 import sys
