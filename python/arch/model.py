@@ -204,8 +204,14 @@ def build_model(model_file, reload_model, sess):
     learning_rate = tf.placeholder(dtype=tf.float32, name='learning_rate')
 
     # Reshape:
-    logits = tf.reshape(output_layer, (-1, NUM_CLASSES))
-    correct_label = tf.reshape(correct_label, (-1, NUM_CLASSES))
+    logits = output_layer
+    # logits = tf.reshape(output_layer, (-1, NUM_CLASSES))
+    # correct_label = tf.reshape(correct_label, (-1, NUM_CLASSES))
+
+    cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=correct_label))
+
+    optimizer = tf.train.AdamOptimizer(learning_rate)
+    train_op = optimizer.minimize(cross_entropy_loss);
 
     # Load the model variables into the model:
     if reload_model and model_exists(model_file):
@@ -215,25 +221,7 @@ def build_model(model_file, reload_model, sess):
         print("Initialized fresh model...")
         sess.run(tf.global_variables_initializer())
 
-    return input_layer, keep_prob, correct_label, learning_rate, output_layer, logits
-
-
-def optimize(logits, correct_label, learning_rate):
-    """
-    Build the TensorFLow loss and optimizer operations.
-    :param nn_last_layer: TF Tensor of the last layer in the neural network
-    :param correct_label: TF Placeholder for the correct label image
-    :param learning_rate: TF Placeholder for the learning rate
-    :param num_classes: Number of classes to classify
-    :return: Tuple of (logits, train_op, cross_entropy_loss)
-    """
-    # TODO: Implement function
-    cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=correct_label))
-
-    optimizer = tf.train.AdamOptimizer(learning_rate)
-    train_op = optimizer.minimize(cross_entropy_loss);
-
-    return logits, train_op, cross_entropy_loss
+    return input_layer, keep_prob, correct_label, learning_rate, output_layer, logits, train_op, cross_entropy_loss
 
 def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_loss, input_image,
              correct_label, keep_prob, learning_rate):

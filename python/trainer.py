@@ -6,7 +6,7 @@ from utils.input import *
 from arch.hyperparams import *
 from tests import project_tests as tests
 from utils.gpu import *
-from arch.model import train_nn, save_model, build_model, optimize
+from arch.model import train_nn, save_model, build_model
 import argparse
 
 def run(model_file=None, reload_model=True):
@@ -23,8 +23,7 @@ def run(model_file=None, reload_model=True):
         # Create function to get batches
         get_batches_fn = gen_batch_function(os.path.join(DATA_DIR, 'data_road/training'), image_shape)
 
-        input_layer, keep_prob, correct_label, learning_rate, output_layer, logits = build_model(model_file, reload_model, sess)
-        train_op, cross_entropy_loss = optimize(logits, correct_label, learning_rate, NUM_CLASSES)
+        input_layer, keep_prob, correct_label, learning_rate, output_layer, logits, train_op, cross_entropy_loss = build_model(model_file, reload_model, sess)
 
         # Train the NN:
         print ("Training the network...")

@@ -71,7 +71,7 @@ def run(model_file):
     assert model_file is not None, "Model file must be provided for inference to be run"
 
     with tf.Session() as sess:
-        input_layer, keep_prob, correct_label, learning_rate, output_layer, logits = build_model(model_file=model_file, reload_model=True, sess=sess)
+        input_layer, keep_prob, correct_label, learning_rate, output_layer, logits, _, _ = build_model(model_file=model_file, reload_model=True, sess=sess)
         run_inference(sess, image_shape, logits, keep_prob, input_layer)
 
 if __name__ == '__main__':
