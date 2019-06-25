@@ -9,10 +9,32 @@ from tests import project_tests as tests
 from arch.model import build_model
 from arch.hyperparams import *
 from utils.gpu import check_gpu
+from utils.params import *
 import shutil
 import argparse
 
-def segment_images(sess, logits, keep_prob, input_image, image_shape):
+def paste_road_mask(street_im, im_softmax):
+
+    # If road softmax > 0.5, prediction is road:
+    #   For channel 0 (NON-ROAD pixels), this will yield a True for pixels that are more "non-road" than road
+    #   For channel 1 (ROAD pixels), this will yield a True for pixels that are more "road" than non-road
+    #   Which essentially matches the cell values and meaning of the expected labeled image
+    segmentation = (im_softmax > 0.5)[0, :, :, :] # This produces a labeled image of shape (?, ?, 2)
+
+    # Create mask for the road-sections
+    mask = np.dot(segmentation, LABEL_TO_MASK_TRANSFORM)
+    mask = scipy.misc.toimage(mask, mode="RGBA")
+
+    if DEBUG_SHAPES:
+        print ("Segmented shape: ", segmentation.shape)
+        print ("Transform shape: ", LABEL_TO_MASK_TRANSFORM.shape)
+        print ("Mask shape: ", mask.shape)
+
+    street_im.paste(mask, box=None, mask=mask)
+
+    return street_im, mask
+
+def segment_images(sess, logits, keep_prob, input_image, image_shape, count=None):
     """
     Generate test output using the test images
     :param sess: TF session
@@ -22,27 +44,36 @@ def segment_images(sess, logits, keep_prob, input_image, image_shape):
     :param image_shape: Tuple - Shape of image
     :return: Output for for each test image
     """
+    count = count if count is not None else -1
+    counter = 0
     for image_file in glob(os.path.join(TEST_DIR, 'image_2', '*.png')):
+        if (counter == count):
+            break
+
         image = scipy.misc.imresize(scipy.misc.imread(image_file), image_shape)
+        street_im = scipy.misc.toimage(image) # Numpy array -> PIL image
 
         # Run inference
         im_softmax = sess.run(
             [tf.nn.softmax(logits)],
             {keep_prob: 1.0, input_image: [image]})
-        # Splice out second column (road), reshape output back to image_shape
-        im_softmax = im_softmax[0][:, 1].reshape(image_shape[0], image_shape[1])
-        # If road softmax > 0.5, prediction is road
-        segmentation = (im_softmax > 0.5).reshape(image_shape[0], image_shape[1], 1)
-        # Create mask based on segmentation to apply to original image
-        mask = np.dot(segmentation, np.array([[0, 255, 0, 127]]))
-        mask = scipy.misc.toimage(mask, mode="RGBA")
-        street_im = scipy.misc.toimage(image)
-        street_im.paste(mask, box=None, mask=mask)
 
-        yield os.path.basename(image_file), np.array(street_im)
+        im_softmax = im_softmax[0] # list [[1, X, Y, 2]] ==> [1, X, Y, 2] (including the batch row)
+
+        if (DEBUG_SHAPES):
+            print ("---")
+            print ("Image shape: " , image.shape)
+            print ("Logits shape: ", logits.shape)
+            print ("Softmax shape: ", im_softmax.shape)
+
+        street_im, mask = paste_road_mask(street_im, im_softmax)
+
+        counter = counter + 1
+
+        yield os.path.basename(image_file), np.array(street_im), np.array(mask)
 
 
-def run_inference(sess, image_shape, logits, keep_prob, input_image):
+def run_inference(sess, image_shape, logits, keep_prob, input_image, count=None):
     """
     Save test images with semantic masks of lane predictions to runs_dir.
     :param sess: TF session
@@ -59,20 +90,21 @@ def run_inference(sess, image_shape, logits, keep_prob, input_image):
     os.makedirs(output_dir)
 
     # Run NN on test images and save them to HD
-    image_outputs = segment_images(sess, logits, keep_prob, input_image, image_shape)
-    for name, image in image_outputs:
+    image_outputs = segment_images(sess, logits, keep_prob, input_image, image_shape, count=count)
+    for name, image, mask in image_outputs:
         scipy.misc.imsave(os.path.join(output_dir, name), image)
+        scipy.misc.imsave(os.path.join(output_dir, "mask-" + name), mask)
 
     print("Inference complete!")
 
-def run(model_file):
+def run(model_file, count = None):
     image_shape = IMAGE_SHAPE_KITI  # KITTI dataset uses 160x576 images
 
     assert model_file is not None, "Model file must be provided for inference to be run"
 
     with tf.Session() as sess:
         input_layer, keep_prob, correct_label, learning_rate, output_layer, logits, _, _ = build_model(model_file=model_file, reload_model=True, sess=sess)
-        run_inference(sess, image_shape, logits, keep_prob, input_layer)
+        run_inference(sess, image_shape, logits, keep_prob, input_layer, count=count)
 
 if __name__ == '__main__':
     print("###############################################")
@@ -83,9 +115,10 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Image Segmentation Inference')
     parser.add_argument('-o', dest='model_folder', default=current_time_millis(), type=str, help='Location of model on disk')
+    parser.add_argument('-n', dest='count', default=None, type=int, help='Number of images to segment (default: All)')
     args = parser.parse_args()
 
     check_gpu()
 
     model_file = os.path.join(MODELS_DIR, args.model_folder, MODEL_FILE_PATTERN);
-    run(model_file=model_file)
+    run(model_file=model_file, count=args.count)
