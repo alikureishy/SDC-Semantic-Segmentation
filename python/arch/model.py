@@ -12,7 +12,6 @@ from urllib.request import urlretrieve
 from tqdm import tqdm
 
 check_tensorflow_version()
-check_gpu()
 
 class DLProgress(tqdm):
     """
@@ -196,24 +195,30 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     return nn_last_layer
 
 def build_model(model_file, reload_model, sess):
+
     maybe_download_pretrained_vgg(DATA_DIR)
     vgg_path = os.path.join(DATA_DIR, 'vgg')
     input_layer, keep_prob, layer3, layer4, layer7 = load_vgg(sess, vgg_path)
     output_layer = layers(layer3, layer4, layer7, NUM_CLASSES)
     correct_label = tf.placeholder(dtype=tf.float32, shape=(None, None, None, NUM_CLASSES), name='correct_label')
     learning_rate = tf.placeholder(dtype=tf.float32, name='learning_rate')
-    logits, train_op, cross_entropy_loss = optimize(output_layer, correct_label, learning_rate, NUM_CLASSES)
+
+    # Reshape:
+    logits = tf.reshape(output_layer, (-1, NUM_CLASSES))
+    correct_label = tf.reshape(correct_label, (-1, NUM_CLASSES))
+
     # Load the model variables into the model:
     if reload_model and model_exists(model_file):
         saver = load_model(model_file, sess)
-        print("Continuing training from model file...")
+        print("Reloading model from file...")
     else:
-        print("Training from scratch...")
+        print("Initialized fresh model...")
         sess.run(tf.global_variables_initializer())
-    return correct_label, cross_entropy_loss, input_layer, keep_prob, learning_rate, train_op
+
+    return input_layer, keep_prob, correct_label, learning_rate, output_layer, logits
 
 
-def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
+def optimize(logits, correct_label, learning_rate):
     """
     Build the TensorFLow loss and optimizer operations.
     :param nn_last_layer: TF Tensor of the last layer in the neural network
@@ -223,8 +228,6 @@ def optimize(nn_last_layer, correct_label, learning_rate, num_classes):
     :return: Tuple of (logits, train_op, cross_entropy_loss)
     """
     # TODO: Implement function
-    logits = tf.reshape(nn_last_layer, (-1, num_classes))
-    correct_label = tf.reshape(correct_label, (-1,num_classes))
     cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=correct_label))
 
     optimizer = tf.train.AdamOptimizer(learning_rate)

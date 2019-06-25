@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="21381443-1194-4a66-bc68-0b040c3ea30e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/python/utils/params.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CarND-Semantic-Segmentation.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CarND-Semantic-Segmentation.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/python/arch/hyperparams.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/arch/hyperparams.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/utils/input.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/utils/input.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python/utils/media.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/utils/media.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python/arch/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/arch/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python/infer_images.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/infer_images.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/trainer.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,12 +17,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/python/trainer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="42" lean-forward="true" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
+            <state relative-caret-position="246">
+              <caret line="25" column="65" selection-start-line="25" selection-start-column="65" selection-end-line="25" selection-end-column="65" />
               <folding>
                 <element signature="e#24#38#0" expanded="true" />
               </folding>
@@ -31,8 +33,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/python/infer_images.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+            <state relative-caret-position="818">
+              <caret line="89" column="81" selection-start-line="89" selection-start-column="81" selection-end-line="89" selection-end-column="81" />
               <folding>
                 <element signature="e#24#41#0" expanded="true" />
               </folding>
@@ -43,8 +45,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/python/arch/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
-              <caret line="274" lean-forward="true" selection-start-line="274" selection-end-line="274" />
+            <state relative-caret-position="210">
+              <caret line="220" column="4" selection-start-line="220" selection-start-column="4" selection-end-line="220" selection-end-column="4" />
               <folding>
                 <element signature="e#24#47#0" expanded="true" />
               </folding>
@@ -53,19 +55,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/python/arch/hyperparams.py">
+        <entry file="file://$USER_HOME$/anaconda3/envs/SDC-Semantic-Segmetation/lib/python3.6/site-packages/tensorflow/python/training/saver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" selection-end-line="1" />
+            <state relative-caret-position="445">
+              <caret line="1307" column="30" lean-forward="true" selection-start-line="1307" selection-start-column="30" selection-end-line="1307" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/python/utils/params.py">
+        <entry file="file://$PROJECT_DIR$/python/arch/hyperparams.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" selection-start-line="19" selection-end-line="19" />
+            <state relative-caret-position="450">
+              <caret line="30" selection-start-line="30" selection-end-line="30" />
             </state>
           </provider>
         </entry>
@@ -83,7 +85,7 @@
         <entry file="file://$PROJECT_DIR$/python/utils/video.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="30">
-              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+              <caret line="2" selection-start-line="2" selection-end-line="2" />
               <folding>
                 <element signature="e#24#33#0" expanded="true" />
               </folding>
@@ -96,9 +98,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="30">
               <caret line="2" selection-start-line="2" selection-end-line="2" />
-              <folding>
-                <element signature="e#36#49#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -106,8 +105,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/python/utils/gpu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+            <state relative-caret-position="225">
+              <caret line="17" selection-start-line="17" selection-end-line="17" />
               <folding>
                 <element signature="e#24#39#0" expanded="true" />
               </folding>
@@ -118,8 +117,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/python/utils/input.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="26" lean-forward="true" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+            <state relative-caret-position="150">
+              <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
               <folding>
                 <element signature="e#288#297#0" expanded="true" />
               </folding>
@@ -171,20 +170,22 @@
         <option value="$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/scipy/misc/pilutil.py" />
         <option value="$PROJECT_DIR$/python/hyperparams.py" />
         <option value="$PROJECT_DIR$/python/model.py" />
-        <option value="$PROJECT_DIR$/python/trainer.py" />
         <option value="$PROJECT_DIR$/python/utils/input.py" />
-        <option value="$PROJECT_DIR$/python/arch/hyperparams.py" />
         <option value="$PROJECT_DIR$/python/utils/util_params.py" />
         <option value="$PROJECT_DIR$/python/utils/media.py" />
         <option value="$PROJECT_DIR$/python/utils/params.py" />
+        <option value="$PROJECT_DIR$/python/arch/hyperparams.py" />
+        <option value="$PROJECT_DIR$/python/arch/model.py" />
+        <option value="$PROJECT_DIR$/python/trainer.py" />
+        <option value="$PROJECT_DIR$/python/infer_images.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1920" />
-    <option name="y" value="25" />
-    <option name="width" value="1920" />
-    <option name="height" value="990" />
+    <option name="x" value="240" />
+    <option name="y" value="161" />
+    <option name="width" value="1440" />
+    <option name="height" value="835" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -194,64 +195,71 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="CarND-Semantic-Segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CarND-Semantic-Segmentation" type="462c0819:PsiDirectoryNode" />
+              <item name="SDC-Semantic-Segmetation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SDC-Semantic-Segmetation" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="CarND-Semantic-Segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CarND-Semantic-Segmentation" type="462c0819:PsiDirectoryNode" />
+              <item name="SDC-Semantic-Segmetation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SDC-Semantic-Segmetation" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="CarND-Semantic-Segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CarND-Semantic-Segmentation" type="462c0819:PsiDirectoryNode" />
+              <item name="SDC-Semantic-Segmetation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SDC-Semantic-Segmetation" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="data_road" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SDC-Semantic-Segmetation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SDC-Semantic-Segmetation" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="data_road" type="462c0819:PsiDirectoryNode" />
+              <item name="testing" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SDC-Semantic-Segmetation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SDC-Semantic-Segmetation" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
               <item name="vgg" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="CarND-Semantic-Segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CarND-Semantic-Segmentation" type="462c0819:PsiDirectoryNode" />
+              <item name="SDC-Semantic-Segmetation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SDC-Semantic-Segmetation" type="462c0819:PsiDirectoryNode" />
               <item name="data" type="462c0819:PsiDirectoryNode" />
               <item name="vgg" type="462c0819:PsiDirectoryNode" />
               <item name="variables" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="CarND-Semantic-Segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CarND-Semantic-Segmentation" type="462c0819:PsiDirectoryNode" />
+              <item name="SDC-Semantic-Segmetation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SDC-Semantic-Segmetation" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="CarND-Semantic-Segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CarND-Semantic-Segmentation" type="462c0819:PsiDirectoryNode" />
+              <item name="SDC-Semantic-Segmetation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SDC-Semantic-Segmetation" type="462c0819:PsiDirectoryNode" />
               <item name="python" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="CarND-Semantic-Segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CarND-Semantic-Segmentation" type="462c0819:PsiDirectoryNode" />
+              <item name="SDC-Semantic-Segmetation" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SDC-Semantic-Segmetation" type="462c0819:PsiDirectoryNode" />
               <item name="python" type="462c0819:PsiDirectoryNode" />
               <item name="arch" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CarND-Semantic-Segmentation" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CarND-Semantic-Segmentation" type="462c0819:PsiDirectoryNode" />
-              <item name="python" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/python" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -298,91 +306,62 @@
       <option name="presentableId" value="Default" />
       <updated>1560986628952</updated>
       <workItem from="1560986631938" duration="44963000" />
+      <workItem from="1561410461353" duration="5654000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44963000" />
+    <option name="totallyTimeSpent" value="50617000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1920" y="25" width="1920" height="990" extended-state="6" />
+    <frame x="0" y="23" width="1920" height="1109" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28495198" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2880724" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.329849" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.329849" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32940018" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="SciView" />
-      <window_info anchor="right" id="Database" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Database Changes" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.33038348" />
+      <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="SciView" order="3" />
+      <window_info anchor="right" id="Database" order="4" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/um_000061.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/um_000062.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/umm_000013.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/umm_000001.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/data_road/training/image_2/um_000001.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/umm_000013.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/umm_000001.png" />
+    <entry file="file://$PROJECT_DIR$/data/data_road/training/image_2/um_000001.png" />
     <entry file="file://$PROJECT_DIR$/examples/insufficient_result.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/examples/sufficient_result.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/data_road/training/gt_image_2/um_lane_000000.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/data_road/training/image_2/um_000000.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/data_road/testing/image_2/um_000001.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/um_000001.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/data_road/testing/image_2/um_000002.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/um_000080.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/data_road/testing/image_2/um_000080.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/um_000000.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/data_road/testing/image_2/um_000000.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/data/data_road/training/gt_image_2/um_lane_000000.png" />
+    <entry file="file://$PROJECT_DIR$/data/data_road/training/image_2/um_000000.png" />
+    <entry file="file://$PROJECT_DIR$/data/data_road/testing/image_2/um_000001.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/um_000001.png" />
+    <entry file="file://$PROJECT_DIR$/data/data_road/testing/image_2/um_000002.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/um_000080.png" />
+    <entry file="file://$PROJECT_DIR$/data/data_road/testing/image_2/um_000080.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561161942.6418715/um_000000.png" />
+    <entry file="file://$PROJECT_DIR$/data/data_road/testing/image_2/um_000000.png" />
     <entry file="file://$PROJECT_DIR$/python/tests/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -393,90 +372,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000000.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000001.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000002.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000004.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000007.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000009.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000017.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000031.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000042.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000058.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000067.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/umm_000005.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/umm_000079.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/_api/v1/saved_model/builder/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-          <folding>
-            <element signature="e#305#361#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/python/saved_model/builder_impl.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="59" column="35" selection-start-line="59" selection-start-column="35" selection-end-line="59" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/python/training/saver.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-238">
-          <caret line="696" column="33" lean-forward="true" selection-start-line="696" selection-start-column="33" selection-end-line="696" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/python/layers/convolutional.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="1187" column="4" selection-start-line="1187" selection-start-column="4" selection-end-line="1187" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/python/ops/gen_math_ops.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="322" column="4" selection-start-line="322" selection-start-column="4" selection-end-line="322" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/scipy/misc/pilutil.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="326" column="67" selection-start-line="326" selection-start-column="67" selection-end-line="326" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000000.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000001.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000002.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000004.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000007.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000009.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000017.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000031.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000042.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000058.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/um_000067.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/umm_000005.png" />
+    <entry file="file://$PROJECT_DIR$/runs/1561176771.186802/umm_000079.png" />
+    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/_api/v1/saved_model/builder/__init__.py" />
+    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/python/saved_model/builder_impl.py" />
+    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/python/training/saver.py" />
+    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/python/layers/convolutional.py" />
+    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/python/ops/gen_math_ops.py" />
+    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/scipy/misc/pilutil.py" />
     <entry file="file://$PROJECT_DIR$/python/tests/project_tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
@@ -484,16 +398,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/python/segment_images.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="e#24#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/python/segment_images.py" />
     <entry file="file://$PROJECT_DIR$/python/infer_video.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
@@ -504,67 +409,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/python/saved_model/loader_impl.py">
+    <entry file="file://$USER_HOME$/anaconda3/envs/CarND-Semantic-Segmentation/lib/python3.7/site-packages/tensorflow/python/saved_model/loader_impl.py" />
+    <entry file="file://$PROJECT_DIR$/python/utils/params.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2">
-          <caret line="244" column="4" selection-start-line="244" selection-start-column="4" selection-end-line="244" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/python/arch/model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="274" lean-forward="true" selection-start-line="274" selection-end-line="274" />
-          <folding>
-            <element signature="e#24#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/python/trainer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="42" lean-forward="true" selection-start-line="18" selection-start-column="42" selection-end-line="18" selection-end-column="42" />
-          <folding>
-            <element signature="e#24#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/python/arch/hyperparams.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/python/utils/gpu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
-          <folding>
-            <element signature="e#24#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/python/utils/input.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="26" lean-forward="true" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
-          <folding>
-            <element signature="e#288#297#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/python/utils/media.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-          <folding>
-            <element signature="e#36#49#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="285">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
         </state>
       </provider>
     </entry>
@@ -578,24 +427,85 @@
     <entry file="file://$PROJECT_DIR$/python/utils/video.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
           <folding>
             <element signature="e#24#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/python/utils/params.py">
+    <entry file="file://$PROJECT_DIR$/python/utils/media.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/utils/gpu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+          <folding>
+            <element signature="e#24#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/utils/input.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="15" column="26" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+          <folding>
+            <element signature="e#288#297#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2019.1/python_stubs/-1902394549/posix.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="629" column="4" selection-start-line="629" selection-start-column="4" selection-end-line="629" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/envs/SDC-Semantic-Segmetation/lib/python3.6/site-packages/tensorflow/python/training/saver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="445">
+          <caret line="1307" column="30" lean-forward="true" selection-start-line="1307" selection-start-column="30" selection-end-line="1307" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/arch/hyperparams.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/arch/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="220" column="4" selection-start-line="220" selection-start-column="4" selection-end-line="220" selection-end-column="4" />
+          <folding>
+            <element signature="e#24#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python/trainer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="25" column="65" selection-start-line="25" selection-start-column="65" selection-end-line="25" selection-end-column="65" />
+          <folding>
+            <element signature="e#24#38#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/python/infer_images.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+        <state relative-caret-position="818">
+          <caret line="89" column="81" selection-start-line="89" selection-start-column="81" selection-end-line="89" selection-end-column="81" />
           <folding>
             <element signature="e#24#41#0" expanded="true" />
           </folding>
