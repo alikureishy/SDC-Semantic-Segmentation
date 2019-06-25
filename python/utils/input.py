@@ -55,12 +55,12 @@ def adjust_to_target_shape(image, segmented_image, target_shape):
 	return image, segmented_image
 
 def convert_to_labels(segmented_image):
-	background = np.all(segmented_image == BACKGROUND_COLOR, axis=2)
-	background = background.reshape(*background.shape, 1)
-	background_inverted = np.invert(background)
-	labeled_image = np.concatenate((background, background_inverted), axis=2)
+	non_road_image = np.all(segmented_image == COLOR_FOR_ONLY_NON_ROAD_PIXELS, axis=2, dtype=np.int8) # Compare the RGB pixels (axis=2)
+	non_road_image = non_road_image.reshape(*non_road_image.shape, 1) # Convert from (x, y) => (x, y, 1), to prepare for 2-channel label
+	road_image = np.invert(non_road_image) # Portions of image that are the road will be those that are NOT pure-road pixels
+	labeled_image = np.concatenate((non_road_image, road_image), axis=2) # Create the 2-channel (for 2 classes) labeled image (?,?,2)
 	if DEBUG_AUGMENTATION_LEVEL >= 2:
-		print("\t\tBackground: " + str(background.shape) + ") ++ (" + str(background_inverted.shape) + ") ")
+		print("\t\tBackground: " + str(non_road_image.shape) + ") ++ (" + str(road_image.shape) + ") ")
 		print("\t\t\t=> Labeled: (" + str(labeled_image.shape) + ")")
 	return labeled_image
 
@@ -69,11 +69,11 @@ def convert_to_labels(segmented_image):
 # - Flip
 # - Brightness/contrast
 # -
-def gen_batch_function(data_folder, image_shape):
+def gen_batch_function(data_folder, target_shape):
 	"""
 	Generate function to create batches of training data
 	:param data_folder: Path to folder that contains all the datasets
-	:param image_shape: Tuple - Shape of image
+	:param target_shape: Tuple - Shape of image
 	:return:
 	"""
 	def get_batches_fn(batch_size):
@@ -95,7 +95,7 @@ def gen_batch_function(data_folder, image_shape):
 		# Loop through batches and grab images, yielding each batch
 		for batch_i in range(0, len(image_paths), batch_size):
 			images = []
-			segmented_images = []
+			labeled_images = []
 			for image_file in image_paths[batch_i:batch_i+batch_size]:
 				segmented_image_file = label_paths[os.path.basename(image_file)]
 
@@ -107,15 +107,15 @@ def gen_batch_function(data_folder, image_shape):
 
 				image, segmented_image = randomly_adjust_shape(image, segmented_image)
 				image, segmented_image = randomly_adjust_content(image, segmented_image)
-				image, segmented_image = adjust_to_target_shape(image, segmented_image, image_shape)
+				image, segmented_image = adjust_to_target_shape(image, segmented_image, target_shape)
 
 				# Create "one-hot-like" labels by channel
 				segmented_with_labels = convert_to_labels(segmented_image)
 
 				images.append(image)
-				segmented_images.append(segmented_with_labels)
+				labeled_images.append(segmented_with_labels)
 
-			yield np.array(images), np.array(segmented_images)
+			yield np.array(images), np.array(labeled_images)
 
 	return get_batches_fn
 
