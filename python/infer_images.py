@@ -5,11 +5,11 @@ import tensorflow as tf
 import time
 import os.path
 from glob import glob
-from tests import project_tests as tests
 from arch.model import build_model
 from arch.hyperparams import *
 from utils.gpu import check_gpu
 from utils.params import *
+import imageio
 import shutil
 import argparse
 
@@ -92,8 +92,8 @@ def run_inference(sess, image_shape, logits, keep_prob, input_image, count=None)
     # Run NN on test images and save them to HD
     image_outputs = segment_images(sess, logits, keep_prob, input_image, image_shape, count=count)
     for name, image, mask in image_outputs:
-        scipy.misc.imsave(os.path.join(output_dir, name), image)
-        scipy.misc.imsave(os.path.join(output_dir, "mask-" + name), mask)
+        imageio.imwrite(os.path.join(output_dir, name), image)
+        imageio.imwrite(os.path.join(output_dir, "mask-" + name), mask)
 
     print("Inference complete!")
 

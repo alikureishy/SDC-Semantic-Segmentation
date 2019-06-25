@@ -2,6 +2,7 @@
 
 from utils.gpu import *
 import time
+import os
 import os.path
 import glob
 from arch.hyperparams import *
@@ -10,6 +11,15 @@ import shutil
 import zipfile
 from urllib.request import urlretrieve
 from tqdm import tqdm
+
+# 0 = all messages are logged (default behavior)
+# 1 = INFO messages are not printed
+# 2 = INFO and WARNING messages are not printed
+# 3 = INFO, WARNING, and ERROR messages are not printed
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '4'
+import logging
+logging.getLogger("tensorflow").setLevel(logging.ERROR)
+logging.getLogger("scipy").setLevel(logging.ERROR)
 
 check_tensorflow_version()
 
