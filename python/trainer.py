@@ -9,7 +9,7 @@ from utils.gpu import *
 from arch.model import train_nn, save_model, build_model
 import argparse
 
-def run(model_file=None, reload_model=True, num_epochs=0):
+def run(num_epochs, model_file=None, reload_model=True):
     image_shape = IMAGE_SHAPE_KITI  # KITTI dataset uses 160x576 images
     tests.test_for_kitti_dataset(DATA_DIR)
 
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Trainer')
     parser.add_argument('-r', dest='reload', action='store_true', default=False, help='Will load the model from disk if available (default: false).')
     parser.add_argument('-o', dest='model_folder', default=current_time_millis(), type=str, help='Location of model on disk')
-    parser.add_argument('-e', dest='num_epochs', default=60, type=int, help='Number of epochs to run. (default = 60).')
+    parser.add_argument('-e', dest='num_epochs', required=True, type=int, help='Number of epochs to run')
     args = parser.parse_args()
 
     check_gpu()
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     model_folder = os.path.join(MODELS_DIR, args.model_folder);
     os.makedirs(model_folder, exist_ok=True);
     model_file = os.path.join(model_folder, MODEL_FILE_PATTERN)
-    run(reload_model=args.reload, model_file=model_file, num_epochs=args.num_epochs)
+    run(num_epochs=args.num_epochs, reload_model=args.reload, model_file=model_file)
 
 ###############################################################
 # parser.add_argument('-i', dest='input', required=True, type=str,

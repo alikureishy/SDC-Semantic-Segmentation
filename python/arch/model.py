@@ -247,18 +247,19 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
     # TODO: Implement function
     losses = []
     for epoch in range(epochs):
-        loss = None
+        batch_loss = 0.0
         s_time = time.time()
-        for image, labels in get_batches_fn(batch_size):
+        for image, labeled in get_batches_fn(batch_size):
             _, loss = sess.run(
                     [train_op, cross_entropy_loss],
                     feed_dict={input_image: image,
-                               correct_label: labels,
+                               correct_label: labeled,
                                keep_prob: KEEP_PROB,
                                learning_rate: LEARNING_RATE}
             )
-            losses.append(loss)
-        print("[Epoch: {0}/{1} Loss: {2:4f} Time: {3}]".format(epoch + 1, epochs, loss,
+            batch_loss += loss
+        losses.append(batch_loss)
+        print("[Epoch: {0}/{1} Loss: {2:4f} Time: {3}]".format(epoch + 1, epochs, batch_loss,
                                                                str(timedelta(seconds=(time.time() - s_time)))))
     plot_loss(RUNS_DIR, losses, "loss_graph")
 
