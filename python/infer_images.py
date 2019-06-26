@@ -13,13 +13,16 @@ import imageio
 import shutil
 import argparse
 
+from tensorflow.python import debug as tf_debug
+
 def paste_road_mask(street_im, im_softmax):
 
     # If road softmax > 0.5, prediction is road:
     #   For channel 0 (NON-ROAD pixels), this will yield a True for pixels that are more "non-road" than road
     #   For channel 1 (ROAD pixels), this will yield a True for pixels that are more "road" than non-road
     #   Which essentially matches the cell values and meaning of the expected labeled image
-    segmentation = (im_softmax > 0.5)[0, :, :, :] # This produces a labeled image of shape (?, ?, 2)
+    # segmentation = ((im_softmax > 0.5)[0, :, :, :]).asType(np.uint8) # This produces a labeled image of shape (?, ?, 2)
+    segmentation = ((im_softmax > 0.5)[0, :, :, :]) # This produces a labeled image of shape (?, ?, 2)
 
     # Create mask for the road-sections
     mask = np.dot(segmentation, LABEL_TO_MASK_TRANSFORM)
@@ -33,6 +36,16 @@ def paste_road_mask(street_im, im_softmax):
     street_im.paste(mask, box=None, mask=mask)
 
     return street_im, mask
+
+# def paste_mask(street_im, im_soft_max, image_shape, color, obj_color_schema):
+#     im_soft_max_r = im_soft_max[0][:, color].reshape(image_shape[0], image_shape[1])
+#     segmentation_r = (im_soft_max_r > 0.5).reshape(image_shape[0], image_shape[1], 1)
+#     mask = np.dot(segmentation_r, np.array(obj_color_schema))
+#     mask = scipy.misc.toimage(mask, mode="RGBA")
+#     street_im.paste(mask, box=None, mask=mask)
+#
+#     return street_im
+
 
 def segment_images(sess, logits, keep_prob, input_image, image_shape, count=None):
     """
@@ -103,6 +116,8 @@ def run(model_file, count = None):
     assert model_file is not None, "Model file must be provided for inference to be run"
 
     with tf.Session() as sess:
+        # sess = tf_debug.LocalCLIDebugWrapperSession(sess)
+
         input_layer, keep_prob, correct_label, learning_rate, output_layer, logits, _, _ = build_model(model_file=model_file, reload_model=True, sess=sess)
         run_inference(sess, image_shape, logits, keep_prob, input_layer, count=count)
 

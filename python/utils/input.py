@@ -14,9 +14,10 @@ import scipy.misc
 from glob import glob
 from utils.media import *
 from utils.params import *
+import imageio
 
 def prob_choice(threshold):
-	return random.uniform(0, 1) > threshold
+	return random.uniform(0, 1) < threshold
 
 def randomly_adjust_shape(image, segmented_image):
 	# Crop (with probability = CROP_PROBABILITY):
@@ -40,7 +41,7 @@ def randomly_adjust_content(image, segmented_image):
 	if prob_choice(EDIT_PROBABILITY):
 		contrast = random.uniform(*EDIT_CONTRAST_RANGE)  # Contrast augmentation
 		brightness = random.randint(*EDIT_BRIGHTNESS_RANGE)  # Brightness augmentation
-		image = bc_img(image, contrast, brightness)
+		image = edit_image(image, contrast, brightness)
 
 	return image, segmented_image
 
@@ -51,11 +52,10 @@ def adjust_to_target_shape(image, segmented_image, target_shape):
 	if DEBUG_AUGMENTATION_LEVEL >= 2:
 		print("\t\tResize:")
 		print("\t\t\t => Image: (" + str(image.shape) + ") / Segmented: (" + str(segmented_image.shape) + ")")
-
 	return image, segmented_image
 
 def convert_to_labels(segmented_image):
-	non_road_image = np.all(segmented_image == COLOR_FOR_ONLY_NON_ROAD_PIXELS, axis=2, dtype=np.int8) # Compare the RGB pixels (axis=2)
+	non_road_image = np.all(segmented_image == COLOR_FOR_ONLY_NON_ROAD_PIXELS, axis=2) # Compare the RGB pixels (axis=2)
 	non_road_image = non_road_image.reshape(*non_road_image.shape, 1) # Convert from (x, y) => (x, y, 1), to prepare for 2-channel label
 	road_image = np.invert(non_road_image) # Portions of image that are the road will be those that are NOT pure-road pixels
 	labeled_image = np.concatenate((non_road_image, road_image), axis=2) # Create the 2-channel (for 2 classes) labeled image (?,?,2)
@@ -97,23 +97,31 @@ def gen_batch_function(data_folder, target_shape):
 			images = []
 			labeled_images = []
 			for image_file in image_paths[batch_i:batch_i+batch_size]:
-				segmented_image_file = label_paths[os.path.basename(image_file)]
+				base_image_file = os.path.basename(image_file)
+				segmented_image_file = label_paths[base_image_file]
 
 				# Read image:
-				image, segmented_image = scipy.misc.imread(image_file), scipy.misc.imread(segmented_image_file)
+				original_image, segmented_image = scipy.misc.imread(image_file), scipy.misc.imread(segmented_image_file)
 				# image, segmented_image = cv2.imread(image_file), cv2.imread(segmented_image_file)
 				if DEBUG_AUGMENTATION_LEVEL >= 1:
-					print ("\tImage: (" + str(image.shape) + ") / Segmented: (" + str(segmented_image.shape) + ")")
+					print ("\tImage: (" + str(original_image.shape) + ") / Segmented: (" + str(segmented_image.shape) + ")")
 
-				image, segmented_image = randomly_adjust_shape(image, segmented_image)
-				image, segmented_image = randomly_adjust_content(image, segmented_image)
-				image, segmented_image = adjust_to_target_shape(image, segmented_image, target_shape)
+				aug_orig_image, aug_segmented_image = original_image, segmented_image
+				aug_orig_image, aug_segmented_image = randomly_adjust_shape(aug_orig_image, aug_segmented_image)
+				aug_orig_image, aug_segmented_image = randomly_adjust_content(aug_orig_image, aug_segmented_image)
+				aug_orig_image, aug_segmented_image = adjust_to_target_shape(aug_orig_image, aug_segmented_image, target_shape)
+
+				if DEBUG_AUGMENTATION_LEVEL>=3:
+					os.makedirs(DEBUG_DIR, exist_ok=True)
+					imageio.imwrite(os.path.join(DEBUG_DIR, "a-pure-" + base_image_file), original_image)
+					imageio.imwrite(os.path.join(DEBUG_DIR, "a-seg-" + base_image_file), segmented_image)
+					imageio.imwrite(os.path.join(DEBUG_DIR, "b-pure-" + base_image_file), aug_orig_image)
+					imageio.imwrite(os.path.join(DEBUG_DIR, "b-seg-" + base_image_file), aug_segmented_image)
 
 				# Create "one-hot-like" labels by channel
-				segmented_with_labels = convert_to_labels(segmented_image)
-
-				images.append(image)
-				labeled_images.append(segmented_with_labels)
+				aug_segmented_with_labels = convert_to_labels(aug_segmented_image)
+				images.append(aug_orig_image)
+				labeled_images.append(aug_segmented_with_labels)
 
 			yield np.array(images), np.array(labeled_images)
 

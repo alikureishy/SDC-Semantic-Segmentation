@@ -1,22 +1,12 @@
 #!/usr/bin/env python3
 
-import re
-import random
-import numpy as np
+import matplotlib.pyplot as plt
 import os.path
-import scipy.misc
-from scipy import ndimage
 import shutil
-import zipfile
-import time
-import tensorflow as tf
-from glob import glob
-from urllib.request import urlretrieve
-from tqdm import tqdm
 
-def plot_loss(runs_dir, loss, folder_name):
+def plot_loss(runs_dir, losses, plot_file_name):
     _, axes = plt.subplots()
-    plt.plot(range(0, len(loss)), loss)
+    plt.plot(range(0, len(losses)), losses)
     plt.title('Cross-entropy loss')
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
@@ -25,5 +15,5 @@ def plot_loss(runs_dir, loss, folder_name):
         shutil.rmtree(runs_dir)
     os.makedirs(runs_dir)
 
-    output_file = os.path.join(runs_dir, folder_name + ".png")
+    output_file = os.path.join(runs_dir, plot_file_name + ".png")
     plt.savefig(output_file)

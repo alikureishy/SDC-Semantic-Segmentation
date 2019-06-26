@@ -11,15 +11,19 @@ import shutil
 import zipfile
 from urllib.request import urlretrieve
 from tqdm import tqdm
+from utils.params import *
+from utils.plot import plot_loss
 
 # 0 = all messages are logged (default behavior)
 # 1 = INFO messages are not printed
 # 2 = INFO and WARNING messages are not printed
 # 3 = INFO, WARNING, and ERROR messages are not printed
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '4'
-import logging
-logging.getLogger("tensorflow").setLevel(logging.ERROR)
-logging.getLogger("scipy").setLevel(logging.ERROR)
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '4'
+# import logging
+# logging.getLogger("tensorflow").setLevel(logging.ERROR)
+# logging.getLogger("scipy").setLevel(logging.ERROR)
+
+tf.logging.set_verbosity(tf.logging.ERROR)
 
 check_tensorflow_version()
 
@@ -97,10 +101,21 @@ def load_vgg(sess, vgg_path):
     graph = tf.get_default_graph()
 
     w1 = graph.get_tensor_by_name(vgg_input_tensor_name)
+
+    # w1.set_shape((None, 160, 576, 3))
+
     keep = graph.get_tensor_by_name(vgg_keep_prob_tensor_name)
     layer3_out = graph.get_tensor_by_name(vgg_layer3_out_tensor_name)
     layer4_out = graph.get_tensor_by_name(vgg_layer4_out_tensor_name)
     layer7_out = graph.get_tensor_by_name(vgg_layer7_out_tensor_name)
+
+    if DEBUG_MODEL:
+        print ("VGG:")
+        print ("\tInput: ", w1.shape)
+        print ("\tKeep: ", keep.shape)
+        print ("\tLayer 3: ", layer3_out.shape)
+        print ("\tLayer 4: ", layer4_out.shape)
+        print ("\tLayer 7: ", layer7_out.shape)
 
     return w1, keep, layer3_out, layer4_out, layer7_out
 
@@ -141,60 +156,71 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     #
     # layer = tf.nn.dropout(layer, keep_prob=0.75)
 
+    # layer_7_1x1
+    # layer_4_deconv
+    # layer_4_skip
+    # layer_3_deconv
+    # layer_3_skip
+    # layer_out
+
+    ######################################################################
+    # Prepare the Skip layers by controlling number of filters put out:
+    ######################################################################
     # Reduce dimensionality from VGG's last convolutional layer:
-    layer7a_out = tf.layers.conv2d(
-                    inputs=vgg_layer7_out,
-                    filters=64,
-                    kernel_size=1,
-                    padding='same',
-                    kernel_initializer=tf.random_normal_initializer(stddev=STDEV), #0.01
-                    kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG)) #1e-3
-
-    # upsample
-    layer4a_in1 = tf.layers.conv2d_transpose(
-                    inputs=layer7a_out,
-                    filters=32,
-                    kernel_size=4,
-                    strides=(2, 2),
-                    padding='same',
-                    kernel_initializer=tf.random_normal_initializer(stddev=STDEV),
-                    kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
-
+    # layer7_1x1_out = tf.layers.conv2d(
+    #                 inputs=vgg_layer7_out,
+    #                 filters=256,    # Cap at 256
+    #                 kernel_size=1,
+    #                 padding='same',
+    #                 kernel_initializer=tf.random_normal_initializer(stddev=STDEV), #0.01
+    #                 kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG)) #1e-3
     # 1x1 convolution of vgg layer 4
-    layer4a_in2 = tf.layers.conv2d(
+    layer4_1x1_out = tf.layers.conv2d(
                     inputs=vgg_layer4_out,
-                    filters=32,
+                    filters=128,    # Cap at 128
+                    kernel_size=1,
+                    padding='same',
+                    kernel_initializer=tf.random_normal_initializer(stddev=STDEV),
+                    kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
+    # 1x1 convolution of vgg layer 3
+    layer3_1x1_out = tf.layers.conv2d(
+                    inputs=vgg_layer3_out,
+                    filters=64,     # Cap at 64
                     kernel_size=1,
                     padding='same',
                     kernel_initializer=tf.random_normal_initializer(stddev=STDEV),
                     kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
 
-    # skip connection (element-wise addition)
-    layer4a_out = tf.add(x=layer4a_in1, y=layer4a_in2)
-    # upsample
-    layer3a_in1 = tf.layers.conv2d_transpose(
-                    inputs=layer4a_out,
-                    filters=16,
+
+    ##################################
+    # Prepare the deconvolution layers
+    ##################################
+    layer_4_deconv = tf.layers.conv2d_transpose(
+                    inputs=vgg_layer7_out, # Or do 1x1 before this on that output?
+                    filters=128,
                     kernel_size=4,
                     strides=(2, 2),
                     padding='same',
                     kernel_initializer=tf.random_normal_initializer(stddev=STDEV),
                     kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
+    layer4_skip = tf.add(x=layer4_1x1_out, y=layer_4_deconv)
+    # layer4_skip = tf.concat(axis=len(layer4_1x1_out.shape)-1, values=[layer4_1x1_out, layer_4_deconv])
 
-    # 1x1 convolution of vgg layer 3
-    layer3a_in2 = tf.layers.conv2d(
-                    inputs=vgg_layer3_out,
-                    filters=16,
-                    kernel_size=1,
+
+    layer_3_deconv = tf.layers.conv2d_transpose(
+                    inputs=layer4_skip,
+                    filters=64,
+                    kernel_size=4,
+                    strides=(2, 2),
                     padding='same',
                     kernel_initializer=tf.random_normal_initializer(stddev=STDEV),
                     kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
+    layer3_skip = tf.add(x=layer3_1x1_out, y=layer_3_deconv)
+    # layer3_skip = tf.concat(axis=len(layer3_1x1_out.shape)-1, values=[layer3_1x1_out, layer_3_deconv])
 
-    # skip connection (element-wise addition)
-    layer3a_out = tf.add(x=layer3a_in1, y=layer3a_in2)
-    # upsample
-    nn_last_layer = tf.layers.conv2d_transpose(
-                    inputs=layer3a_out,
+
+    output = tf.layers.conv2d_transpose(
+                    inputs=layer3_skip,
                     filters=num_classes,
                     kernel_size=8,
                     strides=(8, 8),
@@ -202,9 +228,11 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                     kernel_initializer=tf.random_normal_initializer(stddev=STDEV),
                     kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
 
-    return nn_last_layer
+    return output
 
 def build_model(model_file, reload_model, sess):
+
+
 
     maybe_download_pretrained_vgg(DATA_DIR)
     vgg_path = os.path.join(DATA_DIR, 'vgg')
@@ -264,7 +292,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
             losses.append(loss)
         print("[Epoch: {0}/{1} Loss: {2:4f} Time: {3}]".format(epoch + 1, epochs, loss,
                                                                str(timedelta(seconds=(time.time() - s_time)))))
-    # helper.plot_loss(RUNS_DIR, losses, "loss_graph")
+    plot_loss(RUNS_DIR, losses, "loss_graph")
 
     pass
 
