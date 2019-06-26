@@ -130,39 +130,6 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     """
     # TODO: Implement function
 
-    # # 1x1 convolution layer (to replaace the fully connected layer) : To reduce VGG-16's 4096 output classes/filters to a smaller number
-    # layer = conv_1x1 = tf.layers.conv2d(inputs=vgg_layer7_out, filters=256, kernel_size=1, padding='same', kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
-    #
-    # # Deconvolution layers:
-    #
-    # # Skip connection here:
-    # layer = deconv7_out = tf.layers.conv2d_transpose(inputs=layer, filters=num_classes, kernel_size=4, strides=2, padding='same', name="deconv7_out")
-    # layer = tf.add(layer, vgg_layer7_out)
-    # # layer = tf.concat((layer, vgg_layer7_out), axis=1)
-    #
-    # # Skip connection here:
-    # layer = deconv4_out = tf.layers.conv2d_transpose(inputs=layer, filters=num_classes, kernel_size=64, strides=32, padding='same', name="deconv4_out")
-    # layer = tf.add(layer, vgg_layer4_out)
-    # # layer = tf.concat((layer, vgg_layer4_out), axis=0)
-    #
-    # # Skip connection here:
-    # layer = deconv3_out = tf.layers.conv2d_transpose(inputs=layer, filters=num_classes, kernel_size=128, strides=64, padding='same', name="deconv3_out")
-    # layer = tf.add(layer, vgg_layer3_out)
-    # # layer = tf.concat((layer, vgg_layer3_out), axis=0)
-    #
-    # # No skip connections here:
-    # layer = deconv6_out = tf.layers.conv2d_transpose(inputs=layer, filters=num_classes, kernel_size=16, strides=8, padding='same', name="deconv6_out")
-    # layer = deconv5_out = tf.layers.conv2d_transpose(inputs=layer, filters=num_classes, kernel_size=32, strides=16, padding='same', name="deconv5_out")
-    #
-    # layer = tf.nn.dropout(layer, keep_prob=0.75)
-
-    # layer_7_1x1
-    # layer_4_deconv
-    # layer_4_skip
-    # layer_3_deconv
-    # layer_3_skip
-    # layer_out
-
     ######################################################################
     # Prepare the Skip layers by controlling number of filters put out:
     ######################################################################
@@ -203,8 +170,8 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                     padding='same',
                     kernel_initializer=tf.random_normal_initializer(stddev=STDEV),
                     kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
-    layer4_skip = tf.add(x=layer4_1x1_out, y=layer_4_deconv)
-    # layer4_skip = tf.concat(axis=len(layer4_1x1_out.shape)-1, values=[layer4_1x1_out, layer_4_deconv])
+    # layer4_skip = tf.add(x=layer4_1x1_out, y=layer_4_deconv)
+    layer4_skip = tf.concat(axis=len(layer4_1x1_out.shape)-1, values=[layer4_1x1_out, layer_4_deconv])
 
 
     layer_3_deconv = tf.layers.conv2d_transpose(
@@ -215,8 +182,8 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                     padding='same',
                     kernel_initializer=tf.random_normal_initializer(stddev=STDEV),
                     kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
-    layer3_skip = tf.add(x=layer3_1x1_out, y=layer_3_deconv)
-    # layer3_skip = tf.concat(axis=len(layer3_1x1_out.shape)-1, values=[layer3_1x1_out, layer_3_deconv])
+    # layer3_skip = tf.add(x=layer3_1x1_out, y=layer_3_deconv)
+    layer3_skip = tf.concat(axis=len(layer3_1x1_out.shape)-1, values=[layer3_1x1_out, layer_3_deconv])
 
 
     output = tf.layers.conv2d_transpose(
@@ -235,6 +202,7 @@ def build_model(model_file, reload_model, sess):
 
 
     maybe_download_pretrained_vgg(DATA_DIR)
+    vgg_path = os.path.join(DATA_DIR, 'vgg')
     vgg_path = os.path.join(DATA_DIR, 'vgg')
     input_layer, keep_prob, layer3, layer4, layer7 = load_vgg(sess, vgg_path)
     output_layer = layers(layer3, layer4, layer7, NUM_CLASSES)
@@ -313,4 +281,31 @@ def load_model(model_file, sess):
 def model_exists(model_file):
     return len(glob.glob(model_file + "*")) > 0
 
+
+
+# # 1x1 convolution layer (to replaace the fully connected layer) : To reduce VGG-16's 4096 output classes/filters to a smaller number
+# layer = conv_1x1 = tf.layers.conv2d(inputs=vgg_layer7_out, filters=256, kernel_size=1, padding='same', kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-3))
+#
+# # Deconvolution layers:
+#
+# # Skip connection here:
+# layer = deconv7_out = tf.layers.conv2d_transpose(inputs=layer, filters=num_classes, kernel_size=4, strides=2, padding='same', name="deconv7_out")
+# layer = tf.add(layer, vgg_layer7_out)
+# # layer = tf.concat((layer, vgg_layer7_out), axis=1)
+#
+# # Skip connection here:
+# layer = deconv4_out = tf.layers.conv2d_transpose(inputs=layer, filters=num_classes, kernel_size=64, strides=32, padding='same', name="deconv4_out")
+# layer = tf.add(layer, vgg_layer4_out)
+# # layer = tf.concat((layer, vgg_layer4_out), axis=0)
+#
+# # Skip connection here:
+# layer = deconv3_out = tf.layers.conv2d_transpose(inputs=layer, filters=num_classes, kernel_size=128, strides=64, padding='same', name="deconv3_out")
+# layer = tf.add(layer, vgg_layer3_out)
+# # layer = tf.concat((layer, vgg_layer3_out), axis=0)
+#
+# # No skip connections here:
+# layer = deconv6_out = tf.layers.conv2d_transpose(inputs=layer, filters=num_classes, kernel_size=16, strides=8, padding='same', name="deconv6_out")
+# layer = deconv5_out = tf.layers.conv2d_transpose(inputs=layer, filters=num_classes, kernel_size=32, strides=16, padding='same', name="deconv5_out")
+#
+# layer = tf.nn.dropout(layer, keep_prob=0.75)
 

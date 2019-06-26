@@ -28,7 +28,7 @@ def paste_road_mask(street_im, im_softmax):
     mask = np.dot(segmentation, LABEL_TO_MASK_TRANSFORM)
     mask = scipy.misc.toimage(mask, mode="RGBA")
 
-    if DEBUG_SHAPES:
+    if DEBUG_INFERENCE_LEVEL >= 1:
         print ("Segmented shape: ", segmentation.shape)
         print ("Transform shape: ", LABEL_TO_MASK_TRANSFORM.shape)
         print ("Mask shape: ", mask.shape)
@@ -73,7 +73,7 @@ def segment_images(sess, logits, keep_prob, input_image, image_shape, count=None
 
         im_softmax = im_softmax[0] # list [[1, X, Y, 2]] ==> [1, X, Y, 2] (including the batch row)
 
-        if (DEBUG_SHAPES):
+        if DEBUG_INFERENCE_LEVEL >= 1:
             print ("---")
             print ("Image shape: " , image.shape)
             print ("Logits shape: ", logits.shape)

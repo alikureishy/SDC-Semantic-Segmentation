@@ -6,7 +6,7 @@ import numpy as np
 #           DEBUGGING            #
 ##################################
 DEBUG_AUGMENTATION_LEVEL = 0
-DEBUG_SHAPES = False
+DEBUG_INFERENCE_LEVEL = 0
 DEBUG_MODEL = True
 DEBUG_DIR = '../debug_keep'
 
