@@ -1,7 +1,7 @@
 [//]: # (Image References)
 
-[Loss-Graph]: https://github.com/safdark/SDC-Semantic-Segmetation/blob/master/docs/images/loss_graph.png "Loss Graph"
-[Welcome]: https://github.com/safdark/SDC-Semantic-Segmetation/blob/master/docs/images/welcome.png "Welcome"
+[Loss-Graph]: https://github.com/safdark/SDC-Semantic-Segmentation/blob/master/docs/images/loss_graph.png "Loss Graph"
+[Welcome]: https://github.com/safdark/SDC-Semantic-Segmentation/blob/master/docs/images/welcome.png "Welcome"
 
 # Semantic Segmentation
 
