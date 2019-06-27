@@ -5,7 +5,7 @@
 
 # Semantic Segmentation
 
-![Loss-Graph][Loss-Graph]
+![Welcome][Welcome]
 
 This project is about teaching a DNN to classify pixels in an image as belonging to one of multiple classes.
 
