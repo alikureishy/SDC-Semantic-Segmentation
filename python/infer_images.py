@@ -13,40 +13,32 @@ import imageio
 import shutil
 import argparse
 
+from PIL import Image
+
 from tensorflow.python import debug as tf_debug
 
-def paste_road_mask(street_im, im_softmax):
+def paste_road_mask(street_img, im_softmax):
 
     # If road softmax > 0.5, prediction is road:
     #   For channel 0 (NON-ROAD pixels), this will yield a True for pixels that are more "non-road" than road
     #   For channel 1 (ROAD pixels), this will yield a True for pixels that are more "road" than non-road
     #   Which essentially matches the cell values and meaning of the expected labeled image
     segmentation = ((im_softmax > 0.5)[0, :, :, :]) # This produces a labeled image of shape (?, ?, 2)
-    # segmentation = np.uint8(255 * segmentation)	# Convert boolean pixels to integers that are either 0 or 255
 
     # Create mask for the road-sections
-    mask = np.dot(segmentation, LABEL_TO_MASK_TRANSFORM)
-    mask = scipy.misc.toimage(mask, mode="RGBA")
+    mask = np.dot(segmentation, LABEL_TO_MASK_TRANSFORM).astype(np.uint8)
+    mask_img = Image.fromarray(mask, mode="RGBA")
+
+    street_img.putalpha(255)
+    street_img.alpha_composite(im=mask_img)
 
     if DEBUG_INFERENCE_LEVEL >= 1:
         print ("Segmented shape: ", segmentation.shape)
         print ("Transform shape: ", LABEL_TO_MASK_TRANSFORM.shape)
         print ("Mask shape: ", mask.shape)
+        print (mask_img)
 
-    street_im.paste(mask, box=None, mask=mask)
-    # street_im.alpha_composite(mask)
-
-    return street_im, mask
-
-# def paste_mask(street_im, im_soft_max, image_shape, color, obj_color_schema):
-#     im_soft_max_r = im_soft_max[0][:, color].reshape(image_shape[0], image_shape[1])
-#     segmentation_r = (im_soft_max_r > 0.5).reshape(image_shape[0], image_shape[1], 1)
-#     mask = np.dot(segmentation_r, np.array(obj_color_schema))
-#     mask = scipy.misc.toimage(mask, mode="RGBA")
-#     street_im.paste(mask, box=None, mask=mask)
-#
-#     return street_im
-
+    return street_img, mask
 
 def segment_images(sess, logits, keep_prob, input_image, image_shape, count=None):
     """
@@ -64,8 +56,8 @@ def segment_images(sess, logits, keep_prob, input_image, image_shape, count=None
         if (counter == count):
             break
 
-        image = scipy.misc.imresize(scipy.misc.imread(image_file), image_shape)
-        street_im = scipy.misc.toimage(image) # Numpy array -> PIL image
+        image = scipy.misc.imresize(scipy.misc.imread(image_file), image_shape).astype(np.uint8)
+        street_img = scipy.misc.toimage(image) # Numpy array -> PIL image
 
         # Run inference
         im_softmax = sess.run(
@@ -80,11 +72,11 @@ def segment_images(sess, logits, keep_prob, input_image, image_shape, count=None
             print ("Logits shape: ", logits.shape)
             print ("Softmax shape: ", im_softmax.shape)
 
-        street_im, mask = paste_road_mask(street_im, im_softmax)
+        street_img, mask = paste_road_mask(street_img, im_softmax)
 
         counter = counter + 1
 
-        yield os.path.basename(image_file), np.array(street_im), np.array(mask)
+        yield os.path.basename(image_file), street_img, mask
 
 
 def run_inference(sess, image_shape, logits, keep_prob, input_image, count=None):
@@ -105,6 +97,7 @@ def run_inference(sess, image_shape, logits, keep_prob, input_image, count=None)
 
     # Run NN on test images and save them to HD
     image_outputs = segment_images(sess, logits, keep_prob, input_image, image_shape, count=count)
+
     for name, image, mask in image_outputs:
         imageio.imwrite(os.path.join(output_dir, name), image)
         imageio.imwrite(os.path.join(output_dir, "mask-" + name), mask)

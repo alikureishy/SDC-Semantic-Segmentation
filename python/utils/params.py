@@ -23,7 +23,7 @@ EDIT_BRIGHTNESS_RANGE = [-100, 100] #[-45, 30]
 
 
 NON_ROAD_RGBA_FOR_ILLUSTRATION = np.array([0, 0, 0, 0])                 # Blank color (alpha = 0)
-ROAD_RGBA_FOR_ILLUSTRATION = np.array([0, 127, 0, 1])                   # Mask color (alpha = 1) - RED
+ROAD_RGBA_FOR_ILLUSTRATION = np.array([0, 127, 0, 255])                 # Mask color RED with alpha of OPAQUE
 LABEL_TO_MASK_TRANSFORM = np.vstack((NON_ROAD_RGBA_FOR_ILLUSTRATION,    # 2 x 3 matrix
                                      ROAD_RGBA_FOR_ILLUSTRATION))       # Yields a (?, ?, 4) matrix from
                                                                         #   labeled image (?, ?, 2) DOT transform (2, 4)
