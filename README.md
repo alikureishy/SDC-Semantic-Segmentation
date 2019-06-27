@@ -1,8 +1,11 @@
 [//]: # (Image References)
 
 [Loss-Graph]: https://github.com/safdark/SDC-Semantic-Segmetation/blob/master/docs/images/loss_graph.png "Loss Graph"
+[Welcome]: https://github.com/safdark/SDC-Semantic-Segmetation/blob/master/docs/images/welcome.png "Welcome"
 
 # Semantic Segmentation
+
+![Loss-Graph][Loss-Graph]
 
 This project is about teaching a DNN to classify pixels in an image as belonging to one of multiple classes.
 
