@@ -124,3 +124,18 @@ The output of the inference run will produce a folder, as below:
             /<image-name>.png       <======== The image of the segmented road overlayed on top of the original image, for illustration
 ```
 
+### Sample Output
+
+Sample output after running inference on the test images is located in the following zip file:
+```text
+/<Project-Root>
+    /runs
+        /inferences.zip
+```
+
+Please unzip using the following command, to view the files:
+```text
+> tar -xzvf inferences.zip
+```
+
+Please ignore the "mask-" prefixed file names ... those are merely the segmentation masks. Look at the files that do not have the "mask-" prefix for the actual image with the road sections colored in green.
