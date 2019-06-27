@@ -21,8 +21,8 @@ def paste_road_mask(street_im, im_softmax):
     #   For channel 0 (NON-ROAD pixels), this will yield a True for pixels that are more "non-road" than road
     #   For channel 1 (ROAD pixels), this will yield a True for pixels that are more "road" than non-road
     #   Which essentially matches the cell values and meaning of the expected labeled image
-    # segmentation = ((im_softmax > 0.5)[0, :, :, :]).asType(np.uint8) # This produces a labeled image of shape (?, ?, 2)
     segmentation = ((im_softmax > 0.5)[0, :, :, :]) # This produces a labeled image of shape (?, ?, 2)
+    # segmentation = np.uint8(255 * segmentation)	# Convert boolean pixels to integers that are either 0 or 255
 
     # Create mask for the road-sections
     mask = np.dot(segmentation, LABEL_TO_MASK_TRANSFORM)
@@ -34,6 +34,7 @@ def paste_road_mask(street_im, im_softmax):
         print ("Mask shape: ", mask.shape)
 
     street_im.paste(mask, box=None, mask=mask)
+    # street_im.alpha_composite(mask)
 
     return street_im, mask
 
