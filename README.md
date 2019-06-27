@@ -73,7 +73,7 @@ This regularization technique helps the network generalize better to the test da
 
 A training run was performed with 80 epochs, and produced the following training losses. 
 
-[![Loss-Graph][Loss-Graph]]
+![Loss-Graph][Loss-Graph]
 
 The command used to generate this was:
 ```text
