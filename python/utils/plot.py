@@ -17,3 +17,4 @@ def plot_loss(runs_dir, losses, plot_file_name):
 
     output_file = os.path.join(runs_dir, plot_file_name + ".png")
     plt.savefig(output_file)
+    plt.close()

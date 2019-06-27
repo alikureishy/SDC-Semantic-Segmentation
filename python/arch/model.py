@@ -134,13 +134,13 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     # Prepare the Skip layers by controlling number of filters put out:
     ######################################################################
     # Reduce dimensionality from VGG's last convolutional layer:
-    # layer7_1x1_out = tf.layers.conv2d(
-    #                 inputs=vgg_layer7_out,
-    #                 filters=256,    # Cap at 256
-    #                 kernel_size=1,
-    #                 padding='same',
-    #                 kernel_initializer=tf.random_normal_initializer(stddev=STDEV), #0.01
-    #                 kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG)) #1e-3
+    layer7_1x1_out = tf.layers.conv2d(
+                    inputs=vgg_layer7_out,
+                    filters=256,    # Cap at 256
+                    kernel_size=1,
+                    padding='same',
+                    kernel_initializer=tf.random_normal_initializer(stddev=STDEV), #0.01
+                    kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG)) #1e-3
     # 1x1 convolution of vgg layer 4
     layer4_1x1_out = tf.layers.conv2d(
                     inputs=vgg_layer4_out,
@@ -163,11 +163,12 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
     # Prepare the deconvolution layers
     ##################################
     layer_4_deconv = tf.layers.conv2d_transpose(
-                    inputs=vgg_layer7_out, # Or do 1x1 before this on that output?
+                    inputs=layer7_1x1_out, # Or do 1x1 before this on that output?
                     filters=128,
                     kernel_size=4,
                     strides=(2, 2),
                     padding='same',
+                    activation="relu",
                     kernel_initializer=tf.random_normal_initializer(stddev=STDEV),
                     kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
     # layer4_skip = tf.add(x=layer4_1x1_out, y=layer_4_deconv)
@@ -180,6 +181,7 @@ def layers(vgg_layer3_out, vgg_layer4_out, vgg_layer7_out, num_classes):
                     kernel_size=4,
                     strides=(2, 2),
                     padding='same',
+                    activation="relu",
                     kernel_initializer=tf.random_normal_initializer(stddev=STDEV),
                     kernel_regularizer=tf.contrib.layers.l2_regularizer(L2_REG))
     # layer3_skip = tf.add(x=layer3_1x1_out, y=layer_3_deconv)
@@ -261,7 +263,7 @@ def train_nn(sess, epochs, batch_size, get_batches_fn, train_op, cross_entropy_l
         losses.append(batch_loss)
         print("[Epoch: {0}/{1} Loss: {2:4f} Time: {3}]".format(epoch + 1, epochs, batch_loss,
                                                                str(timedelta(seconds=(time.time() - s_time)))))
-    plot_loss(RUNS_DIR, losses, "loss_graph")
+        plot_loss(RUNS_DIR, losses, "loss_graph")
 
     pass
 
